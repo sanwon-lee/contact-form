@@ -5,11 +5,11 @@ use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
-test('registration screen can be rendered', function () {
+it('renders the registration screen', function () {
     get('/register')->assertStatus(200);
 });
 
-test('new users can register', function () {
+it('allows new users to register', function () {
     $response = post('/register', [
         'name' => 'Test User',
         'email' => 'test@example.com',
