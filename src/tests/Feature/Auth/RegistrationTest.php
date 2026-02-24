@@ -19,5 +19,5 @@ it('allows new users to register', function () {
 
     assertAuthenticated();
     assertDatabaseHas('users', ['email' => 'test@example.com']);
-    $response->assertRedirect('/home');
+    $response->assertRedirect('/admin');
 });

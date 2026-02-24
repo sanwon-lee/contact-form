@@ -24,7 +24,7 @@ it('can authenticate users using the login screen', function () {
     ]);
 
     assertAuthenticatedAs($user);
-    $response->assertRedirect('/home');
+    $response->assertRedirect('/admin');
 });
 
 it('can logout', function () {
