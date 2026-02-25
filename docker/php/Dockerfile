@@ -10,6 +10,7 @@ COPY php.ini /usr/local/etc/php/
 RUN apt-get update \
     && apt-get install -y default-mysql-client zlib1g-dev libzip-dev unzip \
     && docker-php-ext-install pdo_mysql zip \
+    && docker-php-ext-install bcmath \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
