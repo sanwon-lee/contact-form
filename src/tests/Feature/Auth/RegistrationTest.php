@@ -14,7 +14,6 @@ it('allows new users to register', function () {
         'name' => 'Test User',
         'email' => 'test@example.com',
         'password' => 'password',
-        'password_confirmation' => 'password',
     ]);
 
     assertAuthenticated();
