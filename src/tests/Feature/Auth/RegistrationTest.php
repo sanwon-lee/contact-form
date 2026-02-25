@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\User;
+
 use function Pest\Laravel\assertAuthenticated;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\get;
@@ -11,12 +13,12 @@ it('renders the registration screen', function () {
 
 it('allows new users to register', function () {
     $response = post('/register', [
-        'name' => 'Test User',
-        'email' => 'test@example.com',
-        'password' => 'password',
+        User::COL_NAME => 'Test User',
+        User::COL_EMAIL => 'test@example.com',
+        User::COL_PASSWORD => 'password123',
     ]);
 
     assertAuthenticated();
-    assertDatabaseHas('users', ['email' => 'test@example.com']);
+    assertDatabaseHas('users', [User::COL_EMAIL => 'test@example.com']);
     $response->assertRedirect('/admin');
 });

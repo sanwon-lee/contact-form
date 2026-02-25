@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use App\Models\User;
+
 return [
     'accepted'               => ':attributeを承認してください。',
     'accepted_if'            => ':otherが:valueの場合、:attributeを承認する必要があります。',
@@ -284,5 +286,8 @@ return [
         'winner'                   => '受賞者',
         'work'                     => '仕事',
         'year'                     => '年',
+        User::COL_NAME             => User::getLabel(User::COL_NAME),
+        User::COL_EMAIL            => User::getLabel(User::COL_EMAIL),
+        User::COL_PASSWORD         => User::getLabel(User::COL_PASSWORD),
     ],
 ];
