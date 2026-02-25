@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Traits\HasLabels;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,7 +12,13 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasLabels;
+
+    public const COL_NAME = 'name';
+    public const COL_EMAIL = 'email';
+    public const COL_PASSWORD = 'password';
+    public const COL_CREATED_AT = 'created_at';
+    public const COL_UPDATED_AT = 'updated_at';
 
     /**
      * The attributes that are mass assignable.
@@ -18,9 +26,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        self::COL_NAME,
+        self::COL_EMAIL,
+        self::COL_PASSWORD,
     ];
 
     /**
@@ -29,7 +37,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password',
+        self::COL_PASSWORD,
         'remember_token',
     ];
 
@@ -42,7 +50,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            self::COL_PASSWORD => 'hashed',
         ];
     }
 }
