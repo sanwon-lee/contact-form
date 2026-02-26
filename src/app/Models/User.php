@@ -12,6 +12,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasLabels;
 
+    public const COL_ID = 'id';
     public const COL_NAME = 'name';
     public const COL_EMAIL = 'email';
     public const COL_PASSWORD = 'password';
