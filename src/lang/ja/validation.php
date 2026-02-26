@@ -92,7 +92,7 @@ return [
         'array'   => ':attributeの項目数は、:max個以下である必要があります。',
         'file'    => ':attributeは、:max KB以下のファイルである必要があります。',
         'numeric' => ':attributeは、:max以下の数値である必要があります。',
-        'string'  => ':attributeの文字数は、:max文字以下である必要があります。',
+        'string'  => ':attributeは:max文字以内で入力してください',
     ],
     'max_digits'             => ':attributeは、:max桁以下の数字である必要があります。',
     'mimes'                  => ':attributeには、以下のファイルタイプを指定してください。:values',
