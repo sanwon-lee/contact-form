@@ -16,8 +16,6 @@ class User extends Authenticatable
     public const COL_NAME = 'name';
     public const COL_EMAIL = 'email';
     public const COL_PASSWORD = 'password';
-    public const COL_CREATED_AT = 'created_at';
-    public const COL_UPDATED_AT = 'updated_at';
 
     /**
      * The attributes that are mass assignable.
