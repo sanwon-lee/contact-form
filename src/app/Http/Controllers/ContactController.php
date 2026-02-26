@@ -24,11 +24,6 @@ class ContactController extends Controller
         //
     }
 
-    public function back()
-    {
-        //
-    }
-
     /**
      * Show the form for creating a new resource.
      */
