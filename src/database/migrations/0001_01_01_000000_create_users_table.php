@@ -14,11 +14,11 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string(User::COL_NAME);
-            $table->string(User::COL_EMAIL)->unique();
-            $table->string(User::COL_PASSWORD);
-            $table->timestamp(User::COL_CREATED_AT)->useCurrent();
-            $table->timestamp(User::COL_UPDATED_AT)->useCurrent()->useCurrentOnUpdate();
+            $table->string('name');
+            $table->string('email');
+            $table->string('password');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
 
         Schema::create('sessions', function (Blueprint $table) {

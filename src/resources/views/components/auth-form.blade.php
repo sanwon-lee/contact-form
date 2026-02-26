@@ -3,6 +3,7 @@
 <form {{ $attributes->merge([
     'action' => $action,
     'method' => 'post',
+    'novalidate' => true,
 ]) }}>
     @csrf
     {{ $slot }}
