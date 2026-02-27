@@ -44,7 +44,6 @@ class Contact extends Model
 
     protected $casts = [
         self::COL_GENDER => Gender::class,
-        // self::COL_CREATED_AT => 'datetime',
     ];
 
     public function category(): BelongsTo
