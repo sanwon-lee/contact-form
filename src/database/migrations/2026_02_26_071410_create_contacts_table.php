@@ -3,6 +3,7 @@
 use App\Models\Category;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -17,12 +18,12 @@ return new class extends Migration
             $table->foreignIdFor(Category::class)->constrained();
             $table->string('first_name');
             $table->string('last_name');
-            $table->tinyInteger('gender')->check('gender IN (1, 2, 3)');
+            $table->unsignedTinyInteger('gender');
             $table->string('email');
-            $table->string('tel', 5)->check('tel REGEXP "^[0-9]{1-5}$"');
+            $table->string('tel', 5);
             $table->string('address');
             $table->string('building')->nullable();
-            $table->text('detail')->check('CHAR_LENGTH(detail) <= 120');
+            $table->text('detail');
             $table->timestamps();
         });
     }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Gender;
 use App\Models\Category;
 use App\Models\Contact;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -21,15 +22,15 @@ class ContactFactory extends Factory
         $createdAt = fake()->dateTimeBetween('-1 month', 'now');
 
         return [
-            Contact::COL_CATEGORY_ID => Category::inRandomOrder()->first()->id(),
-            Contact::COL_FIRST_NAME  => fake()->firstName(),
-            Contact::COL_LAST_NAME   => fake()->lastName(),
-            Contact::COL_GENDER      => fake()->numberBetween(1, 3),
-            Contact::COL_EMAIL       => fake()->email(),
-            Contact::COL_TEL         => fake()->phoneNumber(),
-            Contact::COL_ADDRESS     => fake()->address(),
-            Contact::COL_BUILDING    => fake()->buildingNumber(),
-            Contact::COL_DETAIL      => fake()->text(),
+            Contact::COL_CATEGORY_ID => Category::factory(),
+            Contact::COL_FIRST_NAME  => mb_substr(fake()->firstName(), 0, 4),
+            Contact::COL_LAST_NAME   => mb_substr(fake()->lastName(), 0, 4),
+            Contact::COL_GENDER      => fake()->randomElement(Gender::cases()),
+            Contact::COL_EMAIL       => fake()->safeEmail(),
+            Contact::COL_TEL         => fake()->numerify('#####'),
+            Contact::COL_ADDRESS     => fake()->prefecture() . fake()->streetAddress(),
+            Contact::COL_BUILDING    => fake()->optional()->secondaryAddress(),
+            Contact::COL_DETAIL      => fake()->realText(120),
             Contact::COL_CREATED_AT  => $createdAt,
             Contact::COL_UPDATED_AT  => $createdAt,
         ];

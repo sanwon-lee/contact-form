@@ -10,7 +10,7 @@ it('redirects guests to the login page when accessing /admin', function () {
 });
 
 it('allows authenticated users to access /admin', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->make();
 
     $response = actingAs($user)->get('/admin');
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\Contact;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,6 +14,8 @@ class ContactSeeder extends Seeder
      */
     public function run(): void
     {
-        Contact::factory(35)->create();
+        $categories = Category::all();
+
+        Contact::factory(35)->recycle($categories)->create();
     }
 }

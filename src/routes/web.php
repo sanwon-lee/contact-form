@@ -10,6 +10,7 @@ Route::get('thanks', [ContactController::class, 'thanks'])->name('contacts.thank
 Route::middleware('auth')->group(function () {
     Route::get('admin', [ContactController::class, 'index'])->name('contacts.index');
     Route::post('search', [ContactController::class, 'index'])->name('contacts.search');
-    // Route::post('reset', [ContactController::class, 'index'])->name('contacts.reset');
-    Route::post('delete', [ContactController::class, 'destroy'])->name('contacts.destroy');
+    Route::post('reset', [ContactController::class, 'index'])->name('contacts.reset');
+    Route::delete('delete/{contact}', [ContactController::class, 'destroy'])->name('contacts.destroy');
+    Route::get('export', [ContactController::class, 'export'])->name('contacts.export');
 });

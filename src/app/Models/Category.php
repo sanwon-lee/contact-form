@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Models\Traits\HasLabels;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    use HasLabels;
+    use HasFactory, HasLabels;
 
     public const COL_ID = 'id';
     public const COL_CONTENT = 'content';

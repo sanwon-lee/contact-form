@@ -94,7 +94,7 @@ return [
         'numeric' => ':attributeは、:max以下の数値である必要があります。',
         'string'  => ':attributeは:max文字以内で入力してください',
     ],
-    'max_digits'             => ':attributeは、:max桁以下の数字である必要があります。',
+    'max_digits'             => ':attributeは:max桁まで数字で入力してください',
     'mimes'                  => ':attributeには、以下のファイルタイプを指定してください。:values',
     'mimetypes'              => ':attributeには、以下のファイルタイプを指定してください。:values',
     'min'                    => [
