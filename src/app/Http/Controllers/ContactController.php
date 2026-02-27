@@ -16,7 +16,7 @@ class ContactController extends Controller
      */
     public function index(Request $request)
     {
-        $contacts = Contact::query()->search($request->all())
+        $contacts = Contact::search($request->all())
             ->latest()
             ->paginate(7)
             ->withQueryString();
