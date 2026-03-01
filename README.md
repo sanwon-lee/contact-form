@@ -40,3 +40,6 @@
 - phpmyadmin 5.2.3
 
 ## ER図
+
+<img width="490" height="631" alt="ER drawio" src="https://github.com/user-attachments/assets/991e49f3-4b34-4afb-8bac-c0c565899ee2" />
+
