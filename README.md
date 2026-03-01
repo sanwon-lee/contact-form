@@ -6,12 +6,12 @@
 
 - `git clone git@github.com:sanwon-lee/contact-form.git`
 - `cp .env.example .env`, .env編集 (OS環境変数を適宜変更)
-- `cp src/.env.example src/.env`, src/.envを.envに合わせて変更
 - `docker compose up -d --build`
 
 ### Laravel環境構築
 
 - `docker compose exec php bash`
+- `cp src/.env.example src/.env`, src/.envを.envに合わせて変更
 - `composer install`
 - `php artisan key:generate`
 - `php artisan migrate --seed`
