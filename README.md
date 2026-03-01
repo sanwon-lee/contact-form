@@ -11,7 +11,7 @@
 ### Laravel環境構築
 
 - `docker compose exec php bash`
-- `cp src/.env.example src/.env`, src/.envを.envに合わせて変更
+- `cp .env.example .env`, env編集
 - `composer install`
 - `php artisan key:generate`
 - `php artisan migrate --seed`
