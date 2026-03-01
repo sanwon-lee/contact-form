@@ -1,10 +1,11 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Faustina:ital,wght@0,300..800;1,300..800&display=swap");
 
-@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
-@source "../../storage/framework/views/*.php";
-@source "../**/*.blade.php";
-@source "../**/*.js";
+/* @source "vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php"; */
+@source "src/resources/views/vendor/pagination/*.blade.php";
+@source "storage/framework/views/*.php";
+@source "resources/views/**/*.blade.php";
+@source "resources/js/**/*.js";
 
 @theme {
     --font-faustina: "Faustina", serif;
@@ -16,5 +17,13 @@
 }
 
 @utility header-btn {
-    @apply border-2 border-stone-400 bg-stone-200 px-4 text-stone-400;
+    @apply cursor-pointer border-2 border-stone-400 bg-stone-200 px-4 text-stone-400;
+}
+
+@utility contact-field {
+    @apply bg-zinc-100 px-6 py-2 text-stone-500;
+}
+
+[x-cloak] {
+    display: none !important;
 }

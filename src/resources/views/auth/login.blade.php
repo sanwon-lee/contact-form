@@ -8,17 +8,19 @@
     <a href="{{ route("register") }}" class="header-btn">register</a>
 @endsection
 
-@section("content_title", "login")
+@section("content_title")
+    <x-content-title>Login</x-content-title>
+@endsection
 
 @section("auth_form")
     <x-auth-form :action="route('login')" label="ログイン">
         <x-auth-input-field
-            :field="User::COL_EMAIL"
+            field="email"
             type="email"
             placeholder="例: test@example.com"
         />
         <x-auth-input-field
-            :field="User::COL_PASSWORD"
+            field="password"
             type="password"
             placeholder="例: coachtech1106"
         />

@@ -39,22 +39,22 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::authenticateUsing(function (Request $request) {
             $validator = Validator::make($request->all(), [
-                User::COL_EMAIL    => ['required', 'email',],
-                User::COL_PASSWORD => ['required',],
+                'email'    => ['required', 'email',],
+                'password' => ['required',],
             ]);
 
             if ($validator->fails()) {
                 throw new ValidationException($validator);
             }
 
-            $user = User::where(User::COL_EMAIL, $request->input(User::COL_EMAIL))->first();
+            $user = User::where('email', $request->input('email'))->first();
 
-            if ($user && Hash::check($request->input(User::COL_PASSWORD), $user->password)) {
+            if ($user && Hash::check($request->input('password'), $user->password)) {
                 return $user;
             }
 
             throw ValidationException::withMessages([
-                User::COL_PASSWORD => [trans('auth.failed')],
+                'password' => [trans('auth.failed')],
             ]);
         });
     }

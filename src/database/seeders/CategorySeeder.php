@@ -14,11 +14,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::upsert([
-            [Category::COL_ID => 1, Category::COL_CONTENT => '商品のお届けについて'],
-            [Category::COL_ID => 2, Category::COL_CONTENT => '商品の交換について'],
-            [Category::COL_ID => 3, Category::COL_CONTENT => '商品トラブル'],
-            [Category::COL_ID => 4, Category::COL_CONTENT => 'ショップへのお問い合わせ'],
-            [Category::COL_ID => 5, Category::COL_CONTENT => 'その他'],
-        ], [Category::COL_ID], [Category::COL_CONTENT]);
+            ['id' => 1, 'content' => '商品のお届けについて'],
+            ['id' => 2, 'content' => '商品の交換について'],
+            ['id' => 3, 'content' => '商品トラブル'],
+            ['id' => 4, 'content' => 'ショップへのお問い合わせ'],
+            ['id' => 5, 'content' => 'その他'],
+        ], ['id'], ['content']);
     }
 }

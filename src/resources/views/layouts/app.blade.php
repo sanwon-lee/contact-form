@@ -23,7 +23,7 @@
             </div>
         </header>
 
-        <main class="{{ $main_class ?? "" }} grow py-12">
+        <main class="{{ $main_class ?? "" }} grow pbs-12">
             @yield("content")
         </main>
     </body>

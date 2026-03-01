@@ -18,7 +18,7 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            Category::COL_CONTENT => fake()->word(),
+            'content' => fake()->word(),
         ];
     }
 }

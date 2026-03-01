@@ -2,18 +2,27 @@
 
 namespace App\Models;
 
-use App\Models\Traits\HasLabels;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * @property string $content
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Database\Factories\CategoryFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Category extends Model
 {
-    use HasFactory, HasLabels;
+    use HasFactory;
 
-    public const COL_ID = 'id';
-    public const COL_CONTENT = 'content';
-
-    protected $fillable = [
-        self::COL_CONTENT,
-    ];
+    protected $fillable = ['content',];
 }

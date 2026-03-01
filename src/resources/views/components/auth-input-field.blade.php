@@ -1,13 +1,9 @@
-@use("App\Models\User")
-
 @props([
     "field",
 ])
 
 <div class="relative mbe-8">
-    <label for="{{ $field }}" class="mbe-2 block text-xl text-stone-500">
-        {{ User::getLabel($field) ?? $field }}
-    </label>
+    <label for="{{ $field }}" class="mbe-2 block text-xl text-stone-500" />
     <input
         {{
             $attributes->merge([

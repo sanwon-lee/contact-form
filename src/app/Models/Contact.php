@@ -3,47 +3,82 @@
 namespace App\Models;
 
 use App\Enums\Gender;
-use App\Models\Traits\HasLabels;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property int $id
+ * @property int $category_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property Gender $gender
+ * @property string $email
+ * @property string $tel
+ * @property string $address
+ * @property string|null $building
+ * @property string $detail
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Category $category
+ * @property-read mixed $full_name
+ * @method static \Database\Factories\ContactFactory factory($count = null, $state = [])
+ * @method static Builder<static>|Contact newModelQuery()
+ * @method static Builder<static>|Contact newQuery()
+ * @method static Builder<static>|Contact query()
+ * @method static Builder<static>|Contact search(array $filters)
+ * @method static Builder<static>|Contact whereAddress($value)
+ * @method static Builder<static>|Contact whereBuilding($value)
+ * @method static Builder<static>|Contact whereCategoryId($value)
+ * @method static Builder<static>|Contact whereCreatedAt($value)
+ * @method static Builder<static>|Contact whereDetail($value)
+ * @method static Builder<static>|Contact whereEmail($value)
+ * @method static Builder<static>|Contact whereFirstName($value)
+ * @method static Builder<static>|Contact whereGender($value)
+ * @method static Builder<static>|Contact whereId($value)
+ * @method static Builder<static>|Contact whereLastName($value)
+ * @method static Builder<static>|Contact whereTel($value)
+ * @method static Builder<static>|Contact whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Contact extends Model
 {
     /** @use HasFactory<\Database\Factories\ContactFactory> */
-    use HasFactory, HasLabels;
-
-    public const COL_ID          = 'id';
-    public const COL_CATEGORY_ID = 'category_id';
-    public const COL_FIRST_NAME  = 'first_name';
-    public const COL_LAST_NAME   = 'last_name';
-    public const COL_GENDER      = 'gender';
-    public const COL_EMAIL       = 'email';
-    public const COL_TEL         = 'tel';
-    public const COL_ADDRESS     = 'address';
-    public const COL_BUILDING    = 'building';
-    public const COL_DETAIL      = 'detail';
-    public const COL_CREATED_AT  = parent::CREATED_AT;
-    public const COL_UPDATED_AT  = parent::UPDATED_AT;
+    use HasFactory;
 
     public const MAX_FULL_NAME_LENGTH = 8;
+    public const MAX_DETAIL_LENGTH    = 120;
+
+    public const CSV_COLUMNS = [
+        'category_id',
+        'first_name',
+        'last_name',
+        'gender',
+        'email',
+        'tel',
+        'address',
+        'building',
+        'detail',
+        'created_at',
+    ];
 
     protected $fillable = [
-        self::COL_CATEGORY_ID,
-        self::COL_FIRST_NAME,
-        self::COL_LAST_NAME,
-        self::COL_GENDER,
-        self::COL_EMAIL,
-        self::COL_TEL,
-        self::COL_ADDRESS,
-        self::COL_BUILDING,
-        self::COL_DETAIL,
+        'category_id',
+        'first_name',
+        'last_name',
+        'gender',
+        'email',
+        'tel',
+        'address',
+        'building',
+        'detail',
     ];
 
     protected $casts = [
-        self::COL_GENDER => Gender::class,
+        'gender' => Gender::class,
     ];
 
     public function category(): BelongsTo
@@ -54,61 +89,51 @@ class Contact extends Model
     protected function fullName(): Attribute
     {
         return Attribute::make(
-            get: fn() => "{$this->{self::COL_LAST_NAME}}　{$this->{self::COL_FIRST_NAME}}",
+            get: fn() => "{$this->last_name}　{$this->first_name}",
         );
     }
 
-    public function scopeSearch(Builder $query, array $filters): Builder
+    #[Scope]
+    protected function search(Builder $query, array $filters): void
     {
-        return $query->with('category')
-            // search by category
-            ->when($filters[self::COL_CATEGORY_ID] ?? null, function ($q, $categoryId) {
-                $q->where(self::COL_CATEGORY_ID, $categoryId);
-            })
-            // search by keyword within name or email
+        $query->with('category')
+            // search by keyword within name and email
             ->when($filters['keyword'] ?? null, function ($q, $keyword) {
                 $wildcard = "%{$keyword}%";
                 $q->where(function ($inner) use ($wildcard) {
-                    $inner->whereLike(self::COL_FIRST_NAME, $wildcard)
-                        ->orWhereLike(self::COL_LAST_NAME, $wildcard)
-                        ->orWhereLike(self::COL_EMAIL, $wildcard);
+                    $inner->whereLike('first_name', $wildcard)
+                        ->orWhereLike('last_name', $wildcard)
+                        ->orWhereLike('email', $wildcard);
                 });
             })
+            // search by gender
+            ->when($filters['gender'] ?? null, function ($q, $gender) {
+                $q->where('gender', $gender);
+            })
+            // search by category
+            ->when($filters['category_id'] ?? null, function ($q, $categoryId) {
+                $q->where('category_id', $categoryId);
+            })
             // search by the exact date
-            ->when($filters['at'] ?? null, function ($q, $at) {
-                $q->whereDate(self::COL_CREATED_AT, $at);
+            ->when($filters['created_at'] ?? null, function ($q, $createdAt) {
+                $q->whereDate('created_at', $createdAt);
             });
     }
 
     public static function csvHeader(): array
     {
-        return collect([
-            self::COL_CATEGORY_ID,
-            self::COL_FIRST_NAME,
-            self::COL_LAST_NAME,
-            self::COL_GENDER,
-            self::COL_EMAIL,
-            self::COL_TEL,
-            self::COL_ADDRESS,
-            self::COL_BUILDING,
-            self::COL_DETAIL,
-            self::COL_CREATED_AT,
-        ])->map(self::getLabel(...))->all();
+        return collect(self::CSV_COLUMNS)->map(fn($col) => __("validation.attributes." . $col))->all();
     }
 
     public function toCsvRow(): array
     {
-        return [
-            $this->category->{Category::COL_CONTENT},
-            $this->{self::COL_FIRST_NAME},
-            $this->{self::COL_LAST_NAME},
-            $this->{self::COL_GENDER}->label(),
-            $this->{self::COL_EMAIL},
-            $this->{self::COL_TEL},
-            $this->{self::COL_ADDRESS},
-            $this->{self::COL_BUILDING},
-            $this->{self::COL_DETAIL},
-            $this->{self::COL_CREATED_AT}->format('Y/m/d'),
-        ];
+        $format = fn($col) => match ($col) {
+            'category_id' => $this->category->content,
+            'gender'      => $this->gender->label(),
+            'created_at'  => $this->created_at->format('Y/m/d'),
+            default       => $this->{$col} ?? '',
+        };
+
+        return collect(self::CSV_COLUMNS)->map($format)->all();
     }
 }

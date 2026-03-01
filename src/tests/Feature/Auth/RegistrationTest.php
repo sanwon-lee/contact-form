@@ -13,12 +13,12 @@ it('renders the registration screen', function () {
 
 it('allows new users to register', function () {
     $response = post('/register', [
-        User::COL_NAME => 'Test User',
-        User::COL_EMAIL => 'test@example.com',
-        User::COL_PASSWORD => 'password123',
+        'name' => 'Test User',
+        'email' => 'test@example.com',
+        'password' => 'password123',
     ]);
 
     assertAuthenticated();
-    assertDatabaseHas('users', [User::COL_EMAIL => 'test@example.com']);
+    assertDatabaseHas('users', ['email' => 'test@example.com']);
     $response->assertRedirect('/admin');
 });

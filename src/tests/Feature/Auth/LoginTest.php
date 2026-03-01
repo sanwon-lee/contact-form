@@ -15,12 +15,12 @@ it('renders the login screen', function () {
 
 it('can authenticate users using the login screen', function () {
     $user = User::factory()->create([
-        User::COL_PASSWORD => Hash::make('password123'),
+        'password' => Hash::make('password123'),
     ]);
 
     $response = post('/login', [
         'email' => $user->email,
-        User::COL_PASSWORD => 'password123',
+        'password' => 'password123',
     ]);
 
     assertAuthenticatedAs($user);

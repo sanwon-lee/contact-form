@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Gender;
 use App\Http\Requests\StoreContactRequest;
 use App\Models\Category;
 use App\Models\Contact;
@@ -22,8 +23,13 @@ class ContactController extends Controller
             ->withQueryString();
 
         $categories = Category::all();
+        $genders = Gender::options();
 
-        return view('contacts.index', compact('contacts', 'categories'));
+        return view('contacts.index', [
+            'contacts' => $contacts,
+            'categories' => $categories,
+            'genders' => $genders,
+        ]);
     }
 
     /**
@@ -31,26 +37,33 @@ class ContactController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $genderOptions = Category::genderOptions();
+        $categories = Category::pluck('content', 'id');
+        $genders = Gender::options();
 
-        $contactData = Session::get('contact_data');
-
-        return view('contacts.create', compact('categories', 'genderOptions', 'contactData'));
+        return view('contacts.create', [
+            'categories' => $categories,
+            'genders' => $genders,
+        ]);
     }
 
     /**
-     * Show the form for confirming inputs.
+     * Show the form for confirming user inputs before storing the resource.
      */
     public function confirm(StoreContactRequest $request)
     {
         $validated = $request->validated();
 
-        $category = Category::find($validated[Contact::COL_CATEGORY_ID]);
-
         Session::put('contact_data', $validated);
 
-        return view('contacts.confirm', compact('validated', 'category'));
+        $displayData = collect($validated)->except(['tel_1', 'tel_2', 'tel_3'])->all();
+        $category = Category::find($validated['category_id'])->content;
+        $genders = Gender::options();
+
+        return view('contacts.confirm', [
+            'displayData' => $displayData,
+            'category' => $category,
+            'genders' => $genders,
+        ]);
     }
 
     /**
@@ -68,7 +81,9 @@ class ContactController extends Controller
             return redirect()->route('contacts.create');
         }
 
-        Contact::create($contactData);
+        $finalData = collect($contactData)->except(['tel_1', 'tel_2', 'tel_3'])->all();
+
+        Contact::create($finalData);
 
         Session::forget('contact_data');
 
@@ -102,9 +117,7 @@ class ContactController extends Controller
      */
     public function export(Request $request, ContactCsvService $csvService)
     {
-        $contacts = Contact::search($request->all())
-            ->latest()
-            ->paginate(7);
+        $contacts = Contact::search($request->all())->latest()->get();
 
         return $csvService->download($contacts);
     }
