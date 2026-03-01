@@ -16,7 +16,7 @@
 - `composer install`
 - `php artisan key:generate`
 - `php artisan migrate --seed`
-- `npm install`
+- `npm install`(必要に応じてNode.js, npmをインストール)
 - `npm run dev`
 
 ## URL
