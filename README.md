@@ -5,6 +5,7 @@
 ### Dockerビルド
 
 - `git clone git@github.com:sanwon-lee/contact-form.git`
+- `cd contact-form`
 - `cp .env.example .env`, .env編集 (OS環境変数を適宜変更)
 - `docker compose up -d --build`
 
